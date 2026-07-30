@@ -23,9 +23,11 @@ int main() {
 
     TraceLog(LOG_INFO, "Game loop started");
 
+    Pong game(WINDOW_WIDTH, WINDOW_HEIGHT, FPS);
+
     while (!WindowShouldClose()) {
         BeginDrawing();
-        ClearBackground(RAYWHITE);
+        game.display();
         EndDrawing();
     }
 
