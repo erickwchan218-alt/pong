@@ -12,7 +12,10 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(raylib)
 
-add_executable(pong src/main.cpp)
+add_executable(pong 
+    src/main.cpp
+    src/logger.cpp
+)
 
 # Link raylib target directly
 target_link_libraries(pong PRIVATE raylib)
