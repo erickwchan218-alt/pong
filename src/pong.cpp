@@ -142,11 +142,20 @@ void Pong::display() {
         if (!block.active) {
             continue;
         }
+        
+        Color blockColor;
+        if (block.type == BlockType::Normal) {
+            blockColor = RED;
+        } else if (block.type == BlockType::Item) {
+            blockColor = BLUE;
+        } else if (block.type == BlockType::Wall) {
+            blockColor = GRAY;
+        }
 
         DrawRectangleV(
             block.pos,
             block.size,
-            WHITE
+            blockColor
         );
     }
     
