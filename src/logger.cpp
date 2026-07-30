@@ -46,8 +46,6 @@ void InitLogger(const char* logFilePath) {
     g_logFile = fopen(logFilePath, "w");
     if (g_logFile) {
         SetTraceLogCallback(CustomLogCallback);
-        std::cout << "[DEBUG] Absolute Log Path: " 
-                  << std::filesystem::absolute(logFilePath) << std::endl;
     } else {
         perror("Failed to open log file");
     }

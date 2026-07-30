@@ -26,9 +26,8 @@ int main() {
     Pong game(WINDOW_WIDTH, WINDOW_HEIGHT, FPS);
 
     while (!WindowShouldClose()) {
-        BeginDrawing();
+        game.updateFrame();
         game.display();
-        EndDrawing();
     }
 
     CloseWindow();

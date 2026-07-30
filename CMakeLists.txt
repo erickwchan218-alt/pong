@@ -18,6 +18,7 @@ FetchContent_MakeAvailable(raylib)
 add_executable(pong 
     src/main.cpp
     src/logger.cpp
+    src/pong.cpp
 )
 
 # Tell CMake to search the src folder for header files (like logger.hpp)
