@@ -9,9 +9,11 @@ private:
     int width; 
     int height;
     int fps;
-    float dt = 1.0f / fps;
+    float dt;
 
+    bool win = false;
     bool lose = false;
+    int activeBlocks = 0;
     Vector2 platePos;
     int plateLength = 50;
 

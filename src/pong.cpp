@@ -10,20 +10,30 @@
 
 #include <iostream>
 
-Pong::Pong(int width, int height, int fps)
-    : width(width), height(height), fps(fps) {
-    balls.insert(balls.end(), {
-        {
-            {width * 0.500f, height * 0.750f},
-            {500.0f, -500.0f},
-            8.0f
-        },
-    });
+Pong::Pong(int m_width, int m_height, int m_fps)
+    : width(m_width), height(m_height), fps(m_fps) {
+    dt = 1.0f / fps;
 
     Vector2 blockInitVec = {width * 0.020f, height * 0.100f};
     float blockSep = 10.0f;
     float blockWidthOffset = 40.0f + blockSep;
     float blockLengthOffset = 20.0f + blockSep;
+
+    activeBlocks = 75;
+
+    // Balls constructor
+    for (int i = -100; i < 101; ++i) {
+        balls.push_back(
+            {
+                {width * 0.500f, height * 0.750f},
+                {i * 10.0f + 1.0f, -500.0f},
+                8.0f
+            }
+        );
+    }
+    
+    std::cout << "Hi: " << activeBlocks << std::endl;
+    // Blocks constructor
     for (int i = 0; i < 15; ++i) {
         for (int j = 0; j < 5; ++j) {
             blocks.push_back(
@@ -43,20 +53,25 @@ Pong::Pong(int width, int height, int fps)
 }
 
 void Pong::updateFrame() {
-    if (lose) {
-        return;
+    std::cout << "[DEBUG] Active Blocks: " << activeBlocks << std::endl; 
+    if (activeBlocks <= 0) {
+        win = true;
+    } else if (balls.size() == 0) {
+        lose = true;
     }
 
-    int i = 0;
+    // int i = 0;
     for (auto& ball : balls) {
         ball.pos.x += ball.vel.x * dt;
         ball.pos.y += ball.vel.y * dt;
 
+        /*
         std::cout << "[DEBUG] Ball " << i << " - Position: (" 
                 << ball.pos.x << ", " << ball.pos.y << "), Velocity: ("
                 << ball.vel.x << ", " << ball.vel.y << ")"
                 << std::endl;
         ++i;
+        */
 
         // Wall Collision
         if (ball.pos.x >= width - ball.radius) {
@@ -70,7 +85,11 @@ void Pong::updateFrame() {
         if (ball.pos.y >= height - ball.radius) {
             ball.pos.y = height - ball.radius;
             ball.vel.y = -ball.vel.y;
-            // lose = true;
+
+            // Destroying the ball
+            size_t index = &ball - &balls[0];
+            std::swap(balls[index], balls[balls.size() - 1]);
+            balls.pop_back();
         } else if (ball.pos.y <= ball.radius) {
             ball.pos.y = ball.radius;
             ball.vel.y = -ball.vel.y;
@@ -90,7 +109,10 @@ void Pong::updateFrame() {
 
             Rectangle blockRec = { block.pos.x, block.pos.y, block.size.x, block.size.y };
             if (CheckCollisionCircleRec(ball.pos, ball.radius, blockRec)) {
-                if (block.type != BlockType::Wall) block.active = false;
+                if (block.type != BlockType::Wall) {
+                    block.active = false;
+                    --activeBlocks;
+                }
                 if (block.type == BlockType::Item) {};
                 
                 float closestX = std::clamp(ball.pos.x, blockRec.x, blockRec.x + blockRec.width);
@@ -99,21 +121,14 @@ void Pong::updateFrame() {
                 float dx = ball.pos.x - closestX;
                 float dy = ball.pos.y - closestY;
 
-                if (std::abs(dx) >= std::abs(dy)) {
-                    if (dy >= 0) {
-                        ball.pos.y = closestY + ball.radius;
-                    } else {
-                        ball.pos.y = closestY - ball.radius;
-                    }
-                    ball.vel.x *= -1;
+                if (std::abs(dx) > std::abs(dy)) {
+                    ball.vel.x = -ball.vel.x;
+                    ball.pos.x = (dx > 0) ? (closestX + ball.radius) : (closestX - ball.radius);
                 } else {
-                    if (dx >= 0) {
-                        ball.pos.x = closestX + ball.radius;
-                    } else {
-                        ball.pos.x = closestX - ball.radius;
-                    }
-                    ball.vel.y *= -1;
+                    ball.vel.y = -ball.vel.y;
+                    ball.pos.y = (dy > 0) ? (closestY + ball.radius) : (closestY - ball.radius);
                 }
+                break;
             }
         }
     }
@@ -125,8 +140,10 @@ void Pong::display() {
 
     DrawText("Pong", 10, 10, 20, WHITE);
 
-    if (lose) {
-        DrawText("Lose!", 80, 10, 20, WHITE);    
+    if (win) {
+        DrawText("Win!", 80, 10, 20, WHITE);
+    } else if (lose) {
+        DrawText("Lose!", 80, 10, 20, WHITE);
     }
 
     for (auto& ball : balls) {

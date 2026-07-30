@@ -25,3 +25,5 @@ add_executable(pong
 target_include_directories(pong PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 target_link_libraries(pong PRIVATE raylib)
+
+target_compile_options(pong PRIVATE -Wall -Wextra -Wshadow)
