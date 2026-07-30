@@ -12,30 +12,37 @@
 
 Pong::Pong(int m_width, int m_height, int m_fps)
     : width(m_width), height(m_height), fps(m_fps) {
+}
+
+void Pong::initialize() {
     dt = 1.0f / fps;
 
+    win = false;
+    lose = false;
+    balls = {};
+    blocks = {};
+    
     Vector2 blockInitVec = {width * 0.020f, height * 0.100f};
+    constexpr int blockHorNum = 15;
+    constexpr int blockVertNum = 5;
     float blockSep = 10.0f;
     float blockWidthOffset = 40.0f + blockSep;
     float blockLengthOffset = 20.0f + blockSep;
 
-    activeBlocks = 75;
+    activeBlocks = blockHorNum * blockVertNum;
 
     // Balls constructor
-    for (int i = -100; i < 101; ++i) {
-        balls.push_back(
-            {
-                {width * 0.500f, height * 0.750f},
-                {i * 10.0f + 1.0f, -500.0f},
-                8.0f
-            }
-        );
-    }
+    balls.push_back(
+        {
+            {width * 0.500f, height * 0.750f},
+            {500.0f, -500.0f},
+            8.0f
+        }
+    );
     
-    std::cout << "Hi: " << activeBlocks << std::endl;
     // Blocks constructor
-    for (int i = 0; i < 15; ++i) {
-        for (int j = 0; j < 5; ++j) {
+    for (int i = 0; i < blockHorNum; ++i) {
+        for (int j = 0; j < blockVertNum; ++j) {
             blocks.push_back(
                 {
                     {blockInitVec.x + i * blockWidthOffset, blockInitVec.y + j * blockLengthOffset},
@@ -48,12 +55,24 @@ Pong::Pong(int m_width, int m_height, int m_fps)
     }
 
     paddle = {
-        {width * 0.500f - 50.0f, height * 0.750f + 50.0f}
+        {(width - paddleLength) * 0.500f, height * 0.900f},
+        {paddleLength, 10.0f}
     };
 }
 
 void Pong::updateFrame() {
-    std::cout << "[DEBUG] Active Blocks: " << activeBlocks << std::endl; 
+    Vector2 mousePos = GetMousePosition();
+    if (IsMouseButtonDown(0)) {
+        paddle.pos.x = mousePos.x - (paddle.size.x / 2.0f);
+
+        if (paddle.pos.x < 0) {
+            paddle.pos.x = 0;
+        } else if (paddle.pos.x + paddle.size.x > width) {
+            paddle.pos.x = width - paddle.size.x;
+        }
+    }
+    
+
     if (activeBlocks <= 0) {
         win = true;
     } else if (balls.size() == 0) {
@@ -183,4 +202,12 @@ void Pong::display() {
     );
 
     EndDrawing();
+}
+
+bool Pong::doGameEnded() {
+    if (win || lose) {
+        return true;
+    } else {
+        return false;
+    }
 }

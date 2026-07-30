@@ -13,9 +13,9 @@ private:
 
     bool win = false;
     bool lose = false;
-    int activeBlocks = 0;
+    int activeBlocks;
     Vector2 platePos;
-    int plateLength = 50;
+    float paddleLength = 120.0f;
 
     enum class BlockType {
         Normal,
@@ -47,8 +47,10 @@ private:
 
 public:
     Pong(int width, int height, int fps);
+    void initialize();
     void updateFrame();
     void display();
+    bool doGameEnded();
 };
 
 #endif

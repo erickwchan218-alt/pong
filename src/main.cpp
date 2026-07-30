@@ -24,10 +24,21 @@ int main() {
     TraceLog(LOG_INFO, "Game loop started");
 
     Pong game(WINDOW_WIDTH, WINDOW_HEIGHT, FPS);
+    game.initialize();
 
+    bool started = false;
     while (!WindowShouldClose()) {
-        game.updateFrame();
+        if (started) {
+            game.updateFrame();
+        } else if (IsMouseButtonPressed(0)) {
+            started = true;
+        }
         game.display();
+        
+        if (game.doGameEnded() && IsKeyPressed(KEY_ENTER)) {
+            started = false;
+            game.initialize();
+        }
     }
 
     CloseWindow();
