@@ -19,8 +19,6 @@ int main() {
     }
 
     CloseWindow();
-
-    // 2. Stop logging
     CloseLogger();
     return 0;
 }

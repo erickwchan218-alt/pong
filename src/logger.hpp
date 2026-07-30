@@ -1,10 +1,12 @@
 #ifndef PONG_LOGGER_H
 #define PONG_LOGGER_H
 
-// Initializes the logger (opens game.log and sets raylib callback)
-void InitLogger(const char* logFilePath = "game.log");
+#include <cstdio>
 
-// Cleans up and closes the log file on exit
+static void CustomLogCallback(int msgType, const char *text, va_list args);
+
+void InitLogger(const char* logFilePath = "logs/game.log");
+
 void CloseLogger();
 
 #endif

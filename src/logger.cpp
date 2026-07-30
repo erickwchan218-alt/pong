@@ -3,6 +3,11 @@
 #include <cstdio>
 #include <cstdarg>
 #include <ctime>
+#include <filesystem>
+
+#include <iostream>
+
+namespace fs = std::filesystem;
 
 static FILE *g_logFile = nullptr;
 
@@ -15,28 +20,42 @@ static void CustomLogCallback(int msgType, const char *text, va_list args) {
     strftime(timeBuffer, sizeof(timeBuffer), "%Y-%m-%d %H:%M:%S", timeinfo);
 
     fprintf(g_logFile, "[%s] ", timeBuffer);
+
     switch (msgType) {
-        case LOG_INFO:    fprintf(g_logFile, "[INFO] : "); break;
-        case LOG_ERROR:   fprintf(g_logFile, "[ERROR]: "); break;
-        case LOG_WARNING: fprintf(g_logFile, "[WARN] : "); break;
-        case LOG_DEBUG:   fprintf(g_logFile, "[DEBUG]: "); break;
-        default: break;
+        case LOG_INFO:    fprintf(g_logFile, "[INFO]    : "); break;
+        case LOG_ERROR:   fprintf(g_logFile, "[ERROR]   : "); break;
+        case LOG_WARNING: fprintf(g_logFile, "[WARNING] : "); break;
+        case LOG_DEBUG:   fprintf(g_logFile, "[DEBUG]   : "); break;
+        default:          fprintf(g_logFile, "[LOG]     : "); break; // Catch all other Raylib log types
     }
 
     vfprintf(g_logFile, text, args);
     fprintf(g_logFile, "\n");
-    fflush(g_logFile);
+
+    fflush(g_logFile); 
 }
 
 void InitLogger(const char* logFilePath) {
+    fs::path path(logFilePath);
+
+    if (path.has_parent_path()) {
+        std::error_code ec;
+        fs::create_directories(path.parent_path(), ec);
+    }
+
     g_logFile = fopen(logFilePath, "w");
     if (g_logFile) {
         SetTraceLogCallback(CustomLogCallback);
+        std::cout << "[DEBUG] Absolute Log Path: " 
+                  << std::filesystem::absolute(logFilePath) << std::endl;
+    } else {
+        perror("Failed to open log file");
     }
 }
 
 void CloseLogger() {
     if (g_logFile) {
+        fflush(g_logFile);
         fclose(g_logFile);
         g_logFile = nullptr;
     }
