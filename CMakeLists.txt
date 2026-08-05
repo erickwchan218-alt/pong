@@ -17,19 +17,18 @@ FetchContent_MakeAvailable(raylib)
 # Include both C++ files here:
 add_executable(pong 
     src/main.cpp
-    src/logger.cpp
-    src/pong.cpp
-
-    src/item/item.cpp
-    src/item/multiBallItem.cpp
-    src/item/expandPaddleItem.cpp
-    src/item/shrinkPaddleItem.cpp
-    src/item/accelerateBallItem.cpp
-    src/item/decelerateBallItem.cpp
+    src/core/logger.cpp
+    src/core/pong.cpp
+    src/items/item.cpp
+    src/items/multi_ball_item.cpp
+    src/items/expand_paddle_item.cpp
+    src/items/shrink_paddle_item.cpp
+    src/items/accel_ball_item.cpp
+    src/items/decel_ball_item.cpp
 )
 
 # Tell CMake to search the src folder for header files (like logger.hpp)
-target_include_directories(pong PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_include_directories(pong PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(pong PRIVATE raylib)
 

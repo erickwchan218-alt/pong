@@ -1,5 +1,5 @@
-#include "logger.hpp"
-#include "pong.hpp"
+#include "core/logger.hpp"
+#include "core/pong.hpp"
 #include "raylib.h"
 
 #include <string>

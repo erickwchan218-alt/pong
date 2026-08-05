@@ -1,4 +1,4 @@
-#include "pong.hpp"
+#include "core/pong.hpp"
 
 Pong::Item::Item(Pong& game, Block& block) {
     pos = {
