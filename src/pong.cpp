@@ -78,18 +78,10 @@ void Pong::updateFrame() {
         isLosing = true;
     }
 
-    // int i = 0;
-    for (auto& ball : balls) {
+    for (int i = static_cast<int>(balls.size()) - 1; i >= 0; --i) {
+        auto& ball = balls[i];
         ball.pos.x += ball.vel.x * dt;
         ball.pos.y += ball.vel.y * dt;
-
-        /*
-        std::cout << "[DEBUG] Ball " << i << " - Position: (" 
-                << ball.pos.x << ", " << ball.pos.y << "), Velocity: ("
-                << ball.vel.x << ", " << ball.vel.y << ")"
-                << std::endl;
-        ++i;
-        */
 
         // Wall Collision
         if (ball.pos.x >= width - ball.radius) {

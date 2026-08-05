@@ -1,5 +1,5 @@
-#ifndef PONG_PONG_H
-#define PONG_PONG_H
+#ifndef PONG_PONG_HPP
+#define PONG_PONG_HPP
 
 #include "raylib.h"
 #include <vector>
@@ -53,4 +53,4 @@ public:
     bool doGameEnded();
 };
 
-#endif
+#endif // PONG_PONG_HPP

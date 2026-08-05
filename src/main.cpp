@@ -14,7 +14,7 @@ int main() {
     const std::string LOG_DIR = "logs/game.log";
     const char* log_dir_cstr = LOG_DIR.data();
 
-    constexpr int FPS = 60;
+    constexpr int FPS = 120;
 
     InitLogger(log_dir_cstr);
 
