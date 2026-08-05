@@ -109,7 +109,7 @@ public:
     ItemType getRandomItemType();
     void updateFrame();
     void display();
-    bool doGameEnded();
+    bool doGameEnded() const;
     std::unique_ptr<Pong::Item> spawnItem(Pong& game, Block &block);
 
 protected:

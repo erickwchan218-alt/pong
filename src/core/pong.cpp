@@ -266,7 +266,7 @@ void Pong::display() {
     EndDrawing();
 }
 
-bool Pong::doGameEnded() {
+bool Pong::doGameEnded() const {
     if (isWinning || isLosing) {
         return true;
     } else {
