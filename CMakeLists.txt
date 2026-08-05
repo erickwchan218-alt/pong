@@ -32,3 +32,14 @@ target_include_directories(pong PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_link_libraries(pong PRIVATE raylib)
 
 target_compile_options(pong PRIVATE -Wall -Wextra -Wshadow)
+
+add_custom_command(
+    TARGET pong POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/assets
+            $<TARGET_FILE_DIR:pong>/assets
+)
+
+if(WIN32)
+    set_target_properties(pong PROPERTIES LINK_FLAGS_RELEASE "-mwindows")
+endif()

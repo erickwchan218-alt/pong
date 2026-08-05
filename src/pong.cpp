@@ -29,18 +29,18 @@ void Pong::initialize() {
     paddleLength = 120.0f * blockSizeMultiplier;
     paddleHeight = 10.0f * blockSizeMultiplier;
     ballSpeedMultiplier = 300.0f * blockSizeMultiplier;
+
+    activeBlocks = 0;
     balls.clear();
     blocks.clear();
     items.clear();
-
+    
     Vector2 blockInitVec = {width * 0.020f, height * 0.100f};
     constexpr int blockHorNum = 15;
     constexpr int blockVertNum = 5;
     float blockSep = 10.0f * blockSizeMultiplier;
     float blockWidthOffset = 40.0f * blockSizeMultiplier + blockSep;
     float blockLengthOffset = 20.0f * blockSizeMultiplier + blockSep;
-
-    activeBlocks = blockHorNum * blockVertNum;
 
     // Balls constructor
     balls.push_back(
@@ -55,10 +55,14 @@ void Pong::initialize() {
     for (int i = 0; i < blockHorNum; ++i) {
         for (int j = 0; j < blockVertNum; ++j) {
             BlockType type;
-            if (i == blockHorNum / 2) {
+            if (i % 5 == 0) {
                 type = BlockType::Item;
+                ++activeBlocks;
+            } else if (i % 5 == 1) {
+                type = BlockType::Wall;
             } else {
-                type = BlockType::Item;
+                type = BlockType::Normal;
+                ++activeBlocks;
             }
             blocks.push_back(
                 {
