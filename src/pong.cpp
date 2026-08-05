@@ -14,6 +14,10 @@ Pong::Pong(int m_width, int m_height, int m_fps)
     : width(m_width), height(m_height), fps(m_fps) {
 }
 
+Pong::~Pong() {
+    cleanup();
+}
+
 void Pong::initialize() {
     dt = 1.0f / fps;
 
@@ -168,13 +172,13 @@ void Pong::updateFrame() {
                 break;
             }
         }
+    }
 
-        for (const auto& item : items) {
-            if (!item->isActive()) {
-                continue;
-            }
-            item->update(dt, paddle, *this);
+    for (const auto& item : items) {
+        if (!item->isActive()) {
+            continue;
         }
+        item->update(dt, paddle, *this);
     }
 }
 
@@ -253,4 +257,11 @@ std::unique_ptr<Pong::Item> Pong::spawnItem(Pong& game, Block& block) {
 bool Pong::checkPaddleCollision(const Paddle& paddle, const Item& item) {
     Rectangle paddleRec = { paddle.pos.x, paddle.pos.y, paddle.size.x, paddle.size.y };
     return CheckCollisionCircleRec(item.getPosition(), item.getRadius(), paddleRec);
+}
+
+void Pong::cleanup() {
+    // Unload textures on game shutdown
+    for (auto& [type, texture] : itemTextures) {
+        UnloadTexture(texture);
+    }
 }

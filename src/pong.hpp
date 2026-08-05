@@ -49,7 +49,7 @@ public:
         
         void update(float dt, const Paddle& paddle, Pong& game);
         virtual ItemType getType() const = 0;
-        virtual void draw(const Texture2D& texture) const;
+        virtual void draw(const Texture2D& texture) const = 0;
         virtual void applyEffect(Pong& game) = 0;
 
         bool isActive() const;
@@ -61,6 +61,7 @@ public:
     public:
         using Item::Item;
         ItemType getType() const override;
+        void draw(const Texture2D& texture) const override;
         void applyEffect(Pong& game) override;
     };
 
@@ -68,6 +69,7 @@ public:
     public:
         using Item::Item;
         ItemType getType() const override;
+        void draw(const Texture2D& texture) const override;
         void applyEffect(Pong& game) override;
     };
 
@@ -75,6 +77,7 @@ public:
     public:
         using Item::Item;
         ItemType getType() const override;
+        void draw(const Texture2D& texture) const override;
         void applyEffect(Pong& game) override;
     };
     
@@ -82,6 +85,7 @@ public:
     public:
         using Item::Item;
         ItemType getType() const override;
+        void draw(const Texture2D& texture) const override;
         void applyEffect(Pong& game) override;
     };
     
@@ -89,10 +93,12 @@ public:
     public:
         using Item::Item;
         ItemType getType() const override;
+        void draw(const Texture2D& texture) const override;
         void applyEffect(Pong& game) override;
     };
 
     Pong(int width, int height, int fps);
+    ~Pong();
     void initialize();
     void updateFrame();
     void display();
@@ -122,6 +128,7 @@ protected:
     std::vector<std::unique_ptr<Item>> items;
 
     static bool checkPaddleCollision(const Paddle& paddle, const Item& item);
+    void cleanup();
 };
 
 #endif // PONG_PONG_HPP
