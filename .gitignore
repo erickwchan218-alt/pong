@@ -1,5 +1,13 @@
 build/
+*.exe
+
 .vscode/
 
+backups/
+*.tar.gz
+*.zip
+
+sandbox/
+assets/
 logs/
 *.log
