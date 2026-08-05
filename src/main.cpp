@@ -6,8 +6,8 @@
 #include "raylib.h"
 
 int main() {
-    constexpr int WINDOW_WIDTH = 800;
-    constexpr int WINDOW_HEIGHT = 450;
+    constexpr int WINDOW_WIDTH = 1600;
+    constexpr int WINDOW_HEIGHT = 900;
     const std::string WINDOW_TITLE = "Pong";
     const char* window_title_cstr = WINDOW_TITLE.data();
 
@@ -33,8 +33,9 @@ int main() {
         } else if (IsMouseButtonPressed(0)) {
             started = true;
         }
+
         game.display();
-        
+
         if (game.doGameEnded() && IsKeyPressed(KEY_ENTER)) {
             started = false;
             game.initialize();

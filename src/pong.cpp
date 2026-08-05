@@ -19,15 +19,20 @@ void Pong::initialize() {
 
     isWinning = false;
     isLosing = false;
-    balls = {};
-    blocks = {};
+    blockSizeMultiplier = 2.0f;
+
+    paddleLength = 120.0f * blockSizeMultiplier;
+    ballSpeedMultiplier = 300.0f * blockSizeMultiplier;
+    balls.clear();
+    blocks.clear();
+    items.clear();
 
     Vector2 blockInitVec = {width * 0.020f, height * 0.100f};
     constexpr int blockHorNum = 15;
     constexpr int blockVertNum = 5;
-    float blockSep = 10.0f;
-    float blockWidthOffset = 40.0f + blockSep;
-    float blockLengthOffset = 20.0f + blockSep;
+    float blockSep = 10.0f * blockSizeMultiplier;
+    float blockWidthOffset = 40.0f * blockSizeMultiplier + blockSep;
+    float blockLengthOffset = 20.0f * blockSizeMultiplier + blockSep;
 
     activeBlocks = blockHorNum * blockVertNum;
 
@@ -35,19 +40,25 @@ void Pong::initialize() {
     balls.push_back(
         {
             {width * 0.500f, height * 0.750f},
-            {500.0f, -500.0f},
-            8.0f
+            {ballSpeedMultiplier, -ballSpeedMultiplier},
+            8.0f * blockSizeMultiplier
         }
     );
     
     // Blocks constructor
     for (int i = 0; i < blockHorNum; ++i) {
         for (int j = 0; j < blockVertNum; ++j) {
+            BlockType type;
+            if (i == blockHorNum / 2) {
+                type = BlockType::Item;
+            } else {
+                type = BlockType::Item;
+            }
             blocks.push_back(
                 {
                     {blockInitVec.x + i * blockWidthOffset, blockInitVec.y + j * blockLengthOffset},
-                    {40.0f, 20.0f},
-                    BlockType::Normal,
+                    {40.0f * blockSizeMultiplier, 20.0f * blockSizeMultiplier},
+                    type,
                     true
                 }  
             );
@@ -58,6 +69,9 @@ void Pong::initialize() {
         {(width - paddleLength) * 0.500f, height * 0.900f},
         {paddleLength, 10.0f}
     };
+
+    // Texture loader
+    itemTextures[ItemType::MultiBall]   = LoadTexture("assets/icons/multiball.png"); 
 }
 
 void Pong::updateFrame() {
@@ -133,7 +147,10 @@ void Pong::updateFrame() {
                     block.active = false;
                     --activeBlocks;
                 }
-                if (block.type == BlockType::Item) {};
+
+                if (block.type == BlockType::Item) {
+                    items.push_back(spawnItem(*this, block));
+                }
                 
                 float closestX = std::clamp(ball.pos.x, blockRec.x, blockRec.x + blockRec.width);
                 float closestY = std::clamp(ball.pos.y, blockRec.y, blockRec.y + blockRec.height);
@@ -150,6 +167,13 @@ void Pong::updateFrame() {
                 }
                 break;
             }
+        }
+
+        for (const auto& item : items) {
+            if (!item->isActive()) {
+                continue;
+            }
+            item->update(dt, paddle, *this);
         }
     }
 }
@@ -195,6 +219,15 @@ void Pong::display() {
             blockColor
         );
     }
+
+    for (const auto& item : items) {
+        if (!item->isActive() || doGameEnded()) {
+            continue;
+        }
+
+        const Texture2D& tex = itemTextures[item->getType()];
+        item->draw(tex);
+    }
     
     DrawRectangleV(
         paddle.pos,
@@ -211,4 +244,13 @@ bool Pong::doGameEnded() {
     } else {
         return false;
     }
+}
+
+std::unique_ptr<Pong::Item> Pong::spawnItem(Pong& game, Block& block) {
+    return std::make_unique<Pong::MultiBallItem>(game, block);
+}
+
+bool Pong::checkPaddleCollision(const Paddle& paddle, const Item& item) {
+    Rectangle paddleRec = { paddle.pos.x, paddle.pos.y, paddle.size.x, paddle.size.y };
+    return CheckCollisionCircleRec(item.getPosition(), item.getRadius(), paddleRec);
 }

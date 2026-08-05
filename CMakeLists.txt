@@ -19,6 +19,9 @@ add_executable(pong
     src/main.cpp
     src/logger.cpp
     src/pong.cpp
+
+    src/item/item.cpp
+    src/item/multiballitem.cpp
 )
 
 # Tell CMake to search the src folder for header files (like logger.hpp)
