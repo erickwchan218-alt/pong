@@ -7,6 +7,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <random>
 
 #include <iostream>
 
@@ -26,6 +27,7 @@ void Pong::initialize() {
     blockSizeMultiplier = 2.0f;
 
     paddleLength = 120.0f * blockSizeMultiplier;
+    paddleHeight = 10.0f * blockSizeMultiplier;
     ballSpeedMultiplier = 300.0f * blockSizeMultiplier;
     balls.clear();
     blocks.clear();
@@ -71,11 +73,21 @@ void Pong::initialize() {
 
     paddle = {
         {(width - paddleLength) * 0.500f, height * 0.900f},
-        {paddleLength, 10.0f}
+        {paddleLength, paddleHeight}
     };
 
     // Texture loader
-    itemTextures[ItemType::MultiBall]   = LoadTexture("assets/icons/multiball.png"); 
+    itemTextures[ItemType::MultiBall]       = LoadTexture("assets/icons/multi_ball.png");
+    itemTextures[ItemType::ExpandPaddle]    = LoadTexture("assets/icons/expand_paddle.png");
+    itemTextures[ItemType::ShrinkPaddle]    = LoadTexture("assets/icons/shrink_paddle.png");
+}
+
+Pong::ItemType Pong::getRandomItemType() {
+    thread_local std::mt19937 gen(std::random_device{}());
+    
+    std::uniform_int_distribution<int> dist(0, static_cast<int>(Pong::ItemType::_COUNT) - 1);
+    
+    return static_cast<Pong::ItemType>(dist(gen));
 }
 
 void Pong::updateFrame() {
@@ -175,6 +187,9 @@ void Pong::updateFrame() {
     }
 
     for (const auto& item : items) {
+        if (doGameEnded()) {
+            item->disable();
+        }
         if (!item->isActive()) {
             continue;
         }
@@ -251,7 +266,17 @@ bool Pong::doGameEnded() {
 }
 
 std::unique_ptr<Pong::Item> Pong::spawnItem(Pong& game, Block& block) {
-    return std::make_unique<Pong::MultiBallItem>(game, block);
+    ItemType type = Pong::getRandomItemType();
+    switch (type) {
+        case ItemType::MultiBall:
+            return std::make_unique<Pong::MultiBallItem>(game, block);
+        case ItemType::ExpandPaddle:
+            return std::make_unique<Pong::ExpandPaddleItem>(game, block);
+        case ItemType::ShrinkPaddle:
+            return std::make_unique<Pong::ShrinkPaddleItem>(game, block);
+        default:
+            return std::make_unique<Pong::MultiBallItem>(game, block);
+    }
 }
 
 bool Pong::checkPaddleCollision(const Paddle& paddle, const Item& item) {

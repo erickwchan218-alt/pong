@@ -9,10 +9,10 @@
 class Pong {
 public:
     enum class BlockType {
-            Normal,
-            Item,
-            Wall
-        };
+        Normal,
+        Item,
+        Wall
+    };
 
     struct Ball {
         Vector2 pos;
@@ -34,6 +34,9 @@ public:
 
     enum class ItemType {
         MultiBall,
+        ExpandPaddle,
+        ShrinkPaddle,
+        _COUNT
     };
 
     class Item {
@@ -53,6 +56,7 @@ public:
         virtual void applyEffect(Pong& game) = 0;
 
         bool isActive() const;
+        void disable();
         Vector2 getPosition() const;
         float getRadius() const;
     };
@@ -100,6 +104,7 @@ public:
     Pong(int width, int height, int fps);
     ~Pong();
     void initialize();
+    ItemType getRandomItemType();
     void updateFrame();
     void display();
     bool doGameEnded();
@@ -116,6 +121,7 @@ protected:
     int activeBlocks;
     Vector2 platePos;
     float paddleLength = 120.0f;
+    float paddleHeight = 10.0f;
     
     float blockSizeMultiplier = 2.0f;
     float ballSpeedMultiplier = 500.0f;
