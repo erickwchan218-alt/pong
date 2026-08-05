@@ -36,6 +36,8 @@ public:
         MultiBall,
         ExpandPaddle,
         ShrinkPaddle,
+        AccelerateBall,
+        DecelerateBall,
         _COUNT
     };
 

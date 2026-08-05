@@ -84,6 +84,8 @@ void Pong::initialize() {
     itemTextures[ItemType::MultiBall]       = LoadTexture("assets/icons/multi_ball.png");
     itemTextures[ItemType::ExpandPaddle]    = LoadTexture("assets/icons/expand_paddle.png");
     itemTextures[ItemType::ShrinkPaddle]    = LoadTexture("assets/icons/shrink_paddle.png");
+    itemTextures[ItemType::AccelerateBall]  = LoadTexture("assets/icons/accelerate_ball.png");
+    itemTextures[ItemType::DecelerateBall]  = LoadTexture("assets/icons/decelerate_ball.png");
 }
 
 Pong::ItemType Pong::getRandomItemType() {
@@ -166,6 +168,9 @@ void Pong::updateFrame() {
                 if (block.type != BlockType::Wall) {
                     block.active = false;
                     --activeBlocks;
+                } else {
+                    ball.vel.x *= 1.01;
+                    ball.vel.y *= 1.01;
                 }
 
                 if (block.type == BlockType::Item) {
@@ -278,6 +283,10 @@ std::unique_ptr<Pong::Item> Pong::spawnItem(Pong& game, Block& block) {
             return std::make_unique<Pong::ExpandPaddleItem>(game, block);
         case ItemType::ShrinkPaddle:
             return std::make_unique<Pong::ShrinkPaddleItem>(game, block);
+        case ItemType::AccelerateBall:
+            return std::make_unique<Pong::AccelerateBallItem>(game, block);
+        case ItemType::DecelerateBall:
+            return std::make_unique<Pong::DecelerateBallItem>(game, block);
         default:
             return std::make_unique<Pong::MultiBallItem>(game, block);
     }

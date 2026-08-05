@@ -20,18 +20,7 @@ void Pong::Item::update(float dt, const Paddle& paddle, Pong& game) {
     }
 }
 
-bool Pong::Item::isActive() const {
-    return active;
-}
-
-void Pong::Item::disable() {
-    active = false;
-}
-
-Vector2 Pong::Item::getPosition() const {
-    return pos;
-}
-
-float Pong::Item::getRadius() const {
-    return radius;
-}
+bool Pong::Item::isActive() const { return active; }
+void Pong::Item::disable() { active = false; }
+Vector2 Pong::Item::getPosition() const { return pos; }
+float Pong::Item::getRadius() const { return radius; }
