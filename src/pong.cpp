@@ -17,11 +17,11 @@ Pong::Pong(int m_width, int m_height, int m_fps)
 void Pong::initialize() {
     dt = 1.0f / fps;
 
-    win = false;
-    lose = false;
+    isWinning = false;
+    isLosing = false;
     balls = {};
     blocks = {};
-    
+
     Vector2 blockInitVec = {width * 0.020f, height * 0.100f};
     constexpr int blockHorNum = 15;
     constexpr int blockVertNum = 5;
@@ -72,11 +72,10 @@ void Pong::updateFrame() {
         }
     }
     
-
     if (activeBlocks <= 0) {
-        win = true;
+        isWinning = true;
     } else if (balls.size() == 0) {
-        lose = true;
+        isLosing = true;
     }
 
     // int i = 0;
@@ -118,8 +117,18 @@ void Pong::updateFrame() {
         Rectangle paddleRec = { paddle.pos.x, paddle.pos.y, paddle.size.x, paddle.size.y };
 
         if (CheckCollisionCircleRec(ball.pos, ball.radius, paddleRec)) {
+            float paddleCenterX = paddle.pos.x + (paddle.size.x / 2.0f);
+            float hitFactor = (ball.pos.x - paddleCenterX) / (paddle.size.x / 2.0f);
+            hitFactor = std::clamp(hitFactor, -1.0f, 1.0f);
+
+            constexpr float maxAngle = 70.0f * (M_PI / 180.0f); 
+            float angle = hitFactor * maxAngle;
+
+            float speed = std::hypot(ball.vel.x, ball.vel.y);
+
             ball.pos.y = paddle.pos.y - ball.radius;
-            ball.vel.y = -std::abs(ball.vel.y); 
+            ball.vel.x = speed * std::sin(angle);
+            ball.vel.y = -speed * std::cos(angle);
         }
 
         // Block Collision
@@ -159,9 +168,9 @@ void Pong::display() {
 
     DrawText("Pong", 10, 10, 20, WHITE);
 
-    if (win) {
+    if (isWinning) {
         DrawText("Win!", 80, 10, 20, WHITE);
-    } else if (lose) {
+    } else if (isLosing) {
         DrawText("Lose!", 80, 10, 20, WHITE);
     }
 
@@ -205,7 +214,7 @@ void Pong::display() {
 }
 
 bool Pong::doGameEnded() {
-    if (win || lose) {
+    if (isWinning || isLosing) {
         return true;
     } else {
         return false;

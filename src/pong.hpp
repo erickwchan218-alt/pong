@@ -11,8 +11,8 @@ private:
     int fps;
     float dt;
 
-    bool win = false;
-    bool lose = false;
+    bool isWinning = false;
+    bool isLosing = false;
     int activeBlocks;
     Vector2 platePos;
     float paddleLength = 120.0f;
