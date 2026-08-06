@@ -18,6 +18,10 @@ Pong::Pong(int m_width, int m_height, int m_fps)
     currentLevel = 1;
 }
 
+Pong::~Pong() {
+    cleanup();
+}
+
 Pong::ItemType Pong::getRandomItemType() {
     thread_local std::mt19937 gen(std::random_device{}());
     
@@ -26,10 +30,8 @@ Pong::ItemType Pong::getRandomItemType() {
     return static_cast<Pong::ItemType>(dist(gen));
 }
 
-bool Pong::doGameEnded() const { return isWinning || isLosing; }
 bool Pong::getWinning() const { return isWinning; }
 bool Pong::getLosing() const { return isLosing; }
-
 void Pong::levelUp() { ++currentLevel; }
 
 bool Pong::checkPaddleCollision(const Paddle& paddle, const Item& item) {
@@ -41,8 +43,4 @@ void Pong::cleanup() {
     for (auto& [type, texture] : itemTextures) {
         UnloadTexture(texture);
     }
-}
-
-Pong::~Pong() {
-    cleanup();
 }

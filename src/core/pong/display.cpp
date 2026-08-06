@@ -34,7 +34,7 @@ void Pong::display() {
         
         Color blockColor = WHITE;
         switch (block.type) {
-            case BlockType::Normal: blockColor = RED;  break;
+            case BlockType::Normal: blockColor = PINK;  break;
             case BlockType::Item:   blockColor = BLUE; break;
             case BlockType::Wall:   blockColor = GRAY; break;
         }
@@ -47,7 +47,7 @@ void Pong::display() {
     }
 
     for (const auto& item : items) {
-        if (!item->isActive() || doGameEnded()) {
+        if (!item->isActive() || getWinning() || getLosing()) {
             continue;
         }
 

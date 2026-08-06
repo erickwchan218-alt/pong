@@ -102,7 +102,7 @@ void Pong::updateFrame() {
     }
 
     for (const auto& item : items) {
-        if (doGameEnded()) {
+        if (getWinning() || getLosing()) {
             item->disable();
         }
         if (!item->isActive()) {

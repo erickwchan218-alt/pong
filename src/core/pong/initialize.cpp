@@ -23,6 +23,8 @@ void Pong::initialize() {
     std::string filePath = std::format("assets/levels/level_{}.json", currentLevel);
     loadLevel(filePath);
 
+    paddleLength = initPaddleLength;
+    paddleHeight = initPaddleHeight;
     paddle = {
         {(width - initPaddleLength) * 0.500f, height * 0.900f},
         {initPaddleLength, initPaddleHeight}
