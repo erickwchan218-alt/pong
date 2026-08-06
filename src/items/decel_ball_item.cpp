@@ -5,10 +5,7 @@
 
 using dbi = Pong::DecelerateBallItem;
 
-Pong::ItemType dbi::getType() const {
-    return ItemType::DecelerateBall;
-}
-
+template<>
 void dbi::draw(const Texture2D& texture) const {
     DrawCircle( 
         pos.x,
@@ -23,6 +20,7 @@ void dbi::draw(const Texture2D& texture) const {
     DrawTexturePro(texture, sourceRec, destRec, origin, 0.0f, WHITE);
 }
 
+template<>
 void dbi::applyEffect(Pong& game) {
     constexpr float multiplier = 1.0f / 1.5f;
     for (auto& ball : game.balls) {

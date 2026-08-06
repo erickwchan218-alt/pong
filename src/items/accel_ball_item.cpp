@@ -5,10 +5,7 @@
 
 using abi = Pong::AccelerateBallItem;
 
-Pong::ItemType abi::getType() const {
-    return ItemType::AccelerateBall;
-}
-
+template<>
 void abi::draw(const Texture2D& texture) const {
     DrawCircle( 
         pos.x,
@@ -23,6 +20,7 @@ void abi::draw(const Texture2D& texture) const {
     DrawTexturePro(texture, sourceRec, destRec, origin, 0.0f, WHITE);
 }
 
+template<>
 void abi::applyEffect(Pong& game) {
     constexpr float multiplier = 1.5f;
     for (auto& ball : game.balls) {

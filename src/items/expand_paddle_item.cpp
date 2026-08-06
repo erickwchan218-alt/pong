@@ -5,10 +5,7 @@
 
 using epi = Pong::ExpandPaddleItem;
 
-Pong::ItemType epi::getType() const {
-    return ItemType::ExpandPaddle;
-}
-
+template<>
 void epi::draw(const Texture2D& texture) const {
     DrawCircle( 
         pos.x,
@@ -23,6 +20,7 @@ void epi::draw(const Texture2D& texture) const {
     DrawTexturePro(texture, sourceRec, destRec, origin, 0.0f, WHITE);
 }
 
+template<>
 void epi::applyEffect(Pong& game) {
     constexpr float multiplier = 1.3f;
     constexpr float offsetMultiplierX = (multiplier - 1.0f) / 2.0f;

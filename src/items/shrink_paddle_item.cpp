@@ -5,10 +5,7 @@
 
 using spi = Pong::ShrinkPaddleItem;
 
-Pong::ItemType spi::getType() const {
-    return ItemType::ShrinkPaddle;
-}
-
+template<>
 void spi::draw(const Texture2D& texture) const {
     DrawCircle( 
         pos.x,
@@ -23,6 +20,7 @@ void spi::draw(const Texture2D& texture) const {
     DrawTexturePro(texture, sourceRec, destRec, origin, 0.0f, WHITE);
 }
 
+template<>
 void spi::applyEffect(Pong& game) {
     constexpr float multiplier = 1.0f / 1.3f;
     constexpr float offsetMultiplierX = (multiplier - 1.0f) / 2.0f;

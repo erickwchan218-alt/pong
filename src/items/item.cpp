@@ -1,6 +1,6 @@
 #include "core/pong.hpp"
 
-Pong::Item::Item(Pong& game, Block& block) {
+Pong::Item::Item(Pong& game, Block& block, ItemType itemType) {
     pos = {
         block.pos.x + block.size.x * 0.5f,
         block.pos.y + block.size.y * 0.5f
@@ -8,6 +8,11 @@ Pong::Item::Item(Pong& game, Block& block) {
     vel = {0.0f, 0.333f * game.ballSpeedMultiplier};
     radius = 8.0f * game.blockSizeMultiplier;
     active = true;
+    type = itemType;
+}
+
+Pong::ItemType Pong::Item::getType() const {
+    return type;
 }
 
 void Pong::Item::update(float dt, const Paddle& paddle, Pong& game) {

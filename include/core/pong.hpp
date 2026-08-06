@@ -47,61 +47,36 @@ public:
         Vector2 vel;
         float radius;
         bool active = true;
+        ItemType type;
 
     public:
-        Item(Pong& game, Block& block);
+        Item(Pong& game, Block& block, ItemType itemType);
         virtual ~Item() = default;
         
         void update(float dt, const Paddle& paddle, Pong& game);
-        virtual ItemType getType() const = 0;
         virtual void draw(const Texture2D& texture) const = 0;
         virtual void applyEffect(Pong& game) = 0;
 
+        ItemType getType() const;
         bool isActive() const;
         void disable();
         Vector2 getPosition() const;
         float getRadius() const;
     };
 
-    class MultiBallItem : public Item {
+    template <ItemType Type>
+    class ConcreteItem : public Item {
     public:
-        using Item::Item;
-        ItemType getType() const override;
+        ConcreteItem(Pong& game, Block& block, ItemType itemType) : Item(game, block, itemType) {}
         void draw(const Texture2D& texture) const override;
         void applyEffect(Pong& game) override;
     };
 
-    class ExpandPaddleItem : public Item {
-    public:
-        using Item::Item;
-        ItemType getType() const override;
-        void draw(const Texture2D& texture) const override;
-        void applyEffect(Pong& game) override;
-    };
-
-    class ShrinkPaddleItem : public Item {
-    public:
-        using Item::Item;
-        ItemType getType() const override;
-        void draw(const Texture2D& texture) const override;
-        void applyEffect(Pong& game) override;
-    };
-    
-    class DecelerateBallItem : public Item {
-    public:
-        using Item::Item;
-        ItemType getType() const override;
-        void draw(const Texture2D& texture) const override;
-        void applyEffect(Pong& game) override;
-    };
-    
-    class AccelerateBallItem : public Item {
-    public:
-        using Item::Item;
-        ItemType getType() const override;
-        void draw(const Texture2D& texture) const override;
-        void applyEffect(Pong& game) override;
-    };
+    using MultiBallItem      = ConcreteItem<ItemType::MultiBall>;
+    using ExpandPaddleItem   = ConcreteItem<ItemType::ExpandPaddle>;
+    using ShrinkPaddleItem   = ConcreteItem<ItemType::ShrinkPaddle>;
+    using AccelerateBallItem = ConcreteItem<ItemType::AccelerateBall>;
+    using DecelerateBallItem = ConcreteItem<ItemType::DecelerateBall>;
 
     Pong(int width, int height, int fps);
     ~Pong();
@@ -118,6 +93,7 @@ protected:
     int fps;
     float dt;
 
+    int currentLevel;
     bool isWinning = false;
     bool isLosing = false;
     int activeBlocks;
@@ -135,6 +111,7 @@ protected:
     std::unordered_map<ItemType, Texture2D> itemTextures;
     std::vector<std::unique_ptr<Item>> items;
 
+    void loadLevel(const std::string& filePath);
     static bool checkPaddleCollision(const Paddle& paddle, const Item& item);
     void cleanup();
 };
