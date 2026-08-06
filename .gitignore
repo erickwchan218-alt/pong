@@ -8,6 +8,7 @@ backups/
 *.zip
 
 sandbox/
+archive/
 assets/
 logs/
 *.log

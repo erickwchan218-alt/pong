@@ -43,4 +43,3 @@ int main() {
     CloseLogger();
     return 0;
 }
-

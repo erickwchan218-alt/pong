@@ -19,6 +19,10 @@ void Pong::Item::update(float dt, const Paddle& paddle, Pong& game) {
     pos.x += vel.x * dt;
     pos.y += vel.y * dt;
 
+    if (pos.y < 0) {
+        active = false;
+    }
+    
     if (Pong::checkPaddleCollision(paddle, *this)) {
         active = false;
         applyEffect(game);
