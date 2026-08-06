@@ -17,15 +17,22 @@ void Pong::loadLevel(const std::string& filePath) {
     blocks.clear();
     activeBlocks = 0;
 
-    Vector2 blockInitVec = {width * 0.020f, height * 0.100f};
-    float blockSep = 10.0f * blockSizeMultiplier;
-    float blockWidthOffset = 40.0f * blockSizeMultiplier + blockSep;
-    float blockLengthOffset = 20.0f * blockSizeMultiplier + blockSep;
+    Vector2 blockInitVec = {
+        width * levelData["initWidth"].get<float>(),
+        height * levelData["initHeight"].get<float>()
+    };
+
+    float blockSep = levelData["blockSep"].get<float>() * blockSizeMultiplier;
+    float blockWidthOffset = levelData["blockWidthOffset"].get<float>() * blockSizeMultiplier + blockSep;
+    float blockHeightOffset = levelData["blockHeightOffset"].get<float>() * blockSizeMultiplier + blockSep;
+
+    float blockWidth = levelData["blockWidth"].get<float>() * blockSizeMultiplier;
+    float blockHeight = levelData["blockHeight"].get<float>() * blockSizeMultiplier;
 
     auto grid = levelData["grid"].get<std::vector<std::vector<std::string>>>();
 
-    for (size_t y = 0; y < grid.size(); ++y) { // Outer loop: Rows (Y)
-        for (size_t x = 0; x < grid[y].size(); ++x) { // Inner loop: Columns (X)
+    for (size_t y = 0; y < grid.size(); ++y) {
+        for (size_t x = 0; x < grid[y].size(); ++x) {
             std::string code = grid[y][x];
             if (code == ".") continue;
 
@@ -41,8 +48,8 @@ void Pong::loadLevel(const std::string& filePath) {
             }
 
             blocks.push_back({
-                {blockInitVec.x + x * blockWidthOffset, blockInitVec.y + y * blockLengthOffset},
-                {40.0f * blockSizeMultiplier, 20.0f * blockSizeMultiplier},
+                {blockInitVec.x + x * blockWidthOffset, blockInitVec.y + y * blockHeightOffset},
+                {blockWidth, blockHeight},
                 type,
                 true
             });

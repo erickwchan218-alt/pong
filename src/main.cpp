@@ -36,7 +36,13 @@ int main() {
 
         game.display();
 
-        if (game.doGameEnded() && IsKeyPressed(KEY_ENTER)) {
+        if (game.getWinning() && IsKeyPressed(KEY_ENTER)) {
+            started = false;
+            game.levelUp();
+            game.initialize();
+        }
+
+        if (game.getLosing() && IsKeyPressed(KEY_ENTER)) {
             started = false;
             game.initialize();
         }

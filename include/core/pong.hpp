@@ -84,7 +84,12 @@ public:
     ItemType getRandomItemType();
     void updateFrame();
     void display();
+
     bool doGameEnded() const;
+    bool getWinning() const;
+    bool getLosing() const;
+    void levelUp();
+
     std::unique_ptr<Pong::Item> spawnItem(Pong& game, Block &block);
 
 protected:
@@ -97,7 +102,9 @@ protected:
     bool isWinning = false;
     bool isLosing = false;
     int activeBlocks;
-    Vector2 platePos;
+
+    float initPaddleLength = 120.0f;
+    float initPaddleHeight = 10.0f;
     float paddleLength = 120.0f;
     float paddleHeight = 10.0f;
     
