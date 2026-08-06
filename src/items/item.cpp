@@ -6,7 +6,7 @@ Pong::Item::Item(Pong& game, Block& block, ItemType itemType) {
         block.pos.y + block.size.y * 0.5f
     };
     vel = {0.0f, 0.333f * game.ballSpeedMultiplier};
-    radius = 8.0f * game.blockSizeMultiplier;
+    radius = 16.0f;
     active = true;
     type = itemType;
 }

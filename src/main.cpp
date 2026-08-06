@@ -18,7 +18,10 @@ int main() {
 
     InitLogger(log_dir_cstr);
 
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, window_title_cstr);
+    SetWindowMinSize(800, 450);
+    HideCursor();
     SetTargetFPS(FPS);
 
     TraceLog(LOG_INFO, "Game loop started");
@@ -26,29 +29,18 @@ int main() {
     Pong game(WINDOW_WIDTH, WINDOW_HEIGHT, FPS);
     game.initialize();
 
-    bool started = false;
     while (!WindowShouldClose()) {
-        if (started) {
-            game.updateFrame();
-        } else if (IsMouseButtonPressed(0)) {
-            started = true;
+        if (IsWindowResized()) {
+            int currentWidth = GetScreenWidth();
+            int currentHeight = GetScreenHeight();
+            game.resize(currentWidth, currentHeight);
         }
-
+        game.updateFrame();
         game.display();
-
-        if (game.getWinning() && IsKeyPressed(KEY_ENTER)) {
-            started = false;
-            game.levelUp();
-            game.initialize();
-        }
-
-        if (game.getLosing() && IsKeyPressed(KEY_ENTER)) {
-            started = false;
-            game.initialize();
-        }
     }
 
     CloseWindow();
     CloseLogger();
     return 0;
 }
+

@@ -4,20 +4,40 @@
 
 #include <format>
 
-void Pong::display() {
-    BeginDrawing();
-    ClearBackground(BLACK);
+void Pong::drawStatusBar() {
+    constexpr float statusBarY = 10.0f;
+    const float iconSize = 32.0f;
 
     std::string title = std::format("Pong | Level {}", currentLevel);
-
     if (isWinning) {
         title.append(" | Win!");
     } else if (isLosing) {
-        title.append(" | Lose!");;
+        title.append(" | Lose!");
     }
 
-    DrawText(title.c_str(), 10, 10, 20, WHITE);
+    DrawText(
+        title.c_str(),
+        20,
+        statusBarY, 
+        28, 
+        WHITE
+    );
 
+    for (size_t i = 0; i < static_cast<size_t>(hp); ++i) {
+        Rectangle sourceRec = { 0.0f, 0.0f, (float)hpTexture.width, (float)hpTexture.height };
+        Rectangle destRec   = {
+            windowWidth - 1.5f * iconSize * (i + 0.333f), 
+            statusBarY + iconSize, 
+            iconSize, 
+            iconSize 
+        };
+        Vector2 origin = { iconSize, iconSize };
+        
+        DrawTexturePro(hpTexture, sourceRec, destRec, origin, 0.0f, WHITE);
+    }
+}
+
+void Pong::drawBalls() {
     for (auto& ball : balls) {
         DrawCircle(
             ball.pos.x,
@@ -26,7 +46,9 @@ void Pong::display() {
             WHITE
         );
     }
+}
 
+void Pong::drawBlocks() {
     for (auto& block : blocks) {
         if (!block.active) {
             continue;
@@ -45,9 +67,11 @@ void Pong::display() {
             blockColor
         );
     }
+}
 
+void Pong::drawItems() {
     for (const auto& item : items) {
-        if (!item->isActive() || getWinning() || getLosing()) {
+        if (!item->isActive() || isWinning || isLosing) {
             continue;
         }
 
@@ -59,7 +83,19 @@ void Pong::display() {
 
         item->draw(tex);
     }
+}
+
+void Pong::display() {
+    BeginDrawing();
+    ClearBackground(BLACK);
+
+    drawStatusBar();
+
+    drawBalls();
+    drawBlocks();
+    drawItems();
     
+    // paddle
     DrawRectangleV(
         paddle.pos,
         paddle.size,

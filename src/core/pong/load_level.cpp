@@ -18,16 +18,16 @@ void Pong::loadLevel(const std::string& filePath) {
     activeBlocks = 0;
 
     Vector2 blockInitVec = {
-        width * levelData["initWidth"].get<float>(),
-        height * levelData["initHeight"].get<float>()
+        windowWidth * levelData["initWidth"].get<float>(),
+        windowHeight * levelData["initHeight"].get<float>()
     };
 
-    float blockSep = levelData["blockSep"].get<float>() * blockSizeMultiplier;
-    float blockWidthOffset = levelData["blockWidthOffset"].get<float>() * blockSizeMultiplier + blockSep;
-    float blockHeightOffset = levelData["blockHeightOffset"].get<float>() * blockSizeMultiplier + blockSep;
+    float blockSep = levelData["blockSep"].get<float>();
+    float blockWidthOffset = levelData["blockWidthOffset"].get<float>() + blockSep;
+    float blockHeightOffset = levelData["blockHeightOffset"].get<float>() + blockSep;
 
-    float blockWidth = levelData["blockWidth"].get<float>() * blockSizeMultiplier;
-    float blockHeight = levelData["blockHeight"].get<float>() * blockSizeMultiplier;
+    float blockWidth = levelData["blockWidth"].get<float>();
+    float blockHeight = levelData["blockHeight"].get<float>();
 
     auto grid = levelData["grid"].get<std::vector<std::vector<std::string>>>();
 

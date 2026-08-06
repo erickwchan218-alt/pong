@@ -8,6 +8,9 @@
 
 class Pong {
 public:
+    static constexpr float VIRTUAL_WIDTH = 800.0f;
+    static constexpr float VIRTUAL_HEIGHT = 450.0f;
+
     enum class BlockType {
         Normal,
         Item,
@@ -80,44 +83,68 @@ public:
 
     Pong(int width, int height, int fps);
     ~Pong();
+
     void initialize();
-    ItemType getRandomItemType();
     void updateFrame();
     void display();
-
-    bool doGameEnded() const;
-    bool getWinning() const;
-    bool getLosing() const;
-    void levelUp();
-
-    std::unique_ptr<Pong::Item> spawnItem(Pong& game, Block &block);
+    void resize(int newWidth, int newHeight);
 
 protected:
-    int width; 
-    int height;
+    int windowWidth; 
+    int windowHeight;
     int fps;
     float dt;
+    bool isDebugMode = true;
 
     int currentLevel;
+    bool started = false;
+    int hp;
+
     bool isWinning = false;
     bool isLosing = false;
     int activeBlocks;
 
-    float initPaddleLength = 120.0f;
-    float initPaddleHeight = 10.0f;
-    float paddleLength = 120.0f;
-    float paddleHeight = 10.0f;
+    float initPaddleLength = 240.0f;
+    float initPaddleHeight = 20.0f;
+    float paddleLength;
+    float paddleHeight;
     
-    float blockSizeMultiplier = 2.0f;
     float ballSpeedMultiplier = 500.0f;
 
     std::vector<Ball> balls;
     std::vector<Block> blocks;
     Paddle paddle;
 
+    Texture2D hpTexture;
     std::unordered_map<ItemType, Texture2D> itemTextures;
     std::vector<std::unique_ptr<Item>> items;
 
+    RenderTexture2D targetRenderBuffer;
+
+    // Initialization
+    void resetRound();
+
+    // Gameplay
+    void movePaddle();
+
+    void updateWinning();
+    void updateHp();
+
+    void wallCollision(Ball& ball);
+    void paddleCollision(Ball& ball);
+    void blockCollision(Ball& ball);
+    void updateItems();
+
+    std::unique_ptr<Pong::Item> spawnItem(Pong& game, Block &block);
+
+    // Display
+    void drawStatusBar();
+    void drawBalls();
+    void drawBlocks();
+    void drawItems();
+
+
+    ItemType getRandomItemType();
     void loadLevel(const std::string& filePath);
     static bool checkPaddleCollision(const Paddle& paddle, const Item& item);
     void cleanup();
