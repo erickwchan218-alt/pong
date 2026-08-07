@@ -21,7 +21,7 @@ int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, window_title_cstr);
     SetWindowMinSize(800, 450);
-    // HideCursor();
+    HideCursor();
     SetTargetFPS(FPS);
 
     TraceLog(LOG_INFO, "Game loop started");

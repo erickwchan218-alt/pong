@@ -8,8 +8,8 @@
 
 class Pong {
 public:
-    static constexpr float VIRTUAL_WIDTH = 800.0f;
-    static constexpr float VIRTUAL_HEIGHT = 450.0f;
+    static constexpr float VIRTUAL_WIDTH = 1600.0f;
+    static constexpr float VIRTUAL_HEIGHT = 900.0f;
 
     enum class BlockType {
         Normal,

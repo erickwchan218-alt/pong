@@ -26,7 +26,7 @@ void Pong::drawStatusBar() {
     for (size_t i = 0; i < static_cast<size_t>(hp); ++i) {
         Rectangle sourceRec = { 0.0f, 0.0f, (float)hpTexture.width, (float)hpTexture.height };
         Rectangle destRec   = {
-            windowWidth - 1.5f * iconSize * (i + 0.333f), 
+            VIRTUAL_WIDTH - 1.5f * iconSize * (i + 0.333f), 
             statusBarY + iconSize, 
             iconSize, 
             iconSize 
@@ -86,11 +86,10 @@ void Pong::drawItems() {
 }
 
 void Pong::display() {
-    BeginDrawing();
+    BeginTextureMode(targetRenderBuffer);
     ClearBackground(BLACK);
 
     drawStatusBar();
-
     drawBalls();
     drawBlocks();
     drawItems();
@@ -101,6 +100,25 @@ void Pong::display() {
         paddle.size,
         WHITE
     );
+    EndTextureMode();
 
+    float scale = std::min((float)windowWidth / VIRTUAL_WIDTH, (float)windowHeight / VIRTUAL_HEIGHT);
+    
+    Vector2 offset = {
+        (windowWidth - (VIRTUAL_WIDTH * scale)) * 0.5f,
+        (windowHeight - (VIRTUAL_HEIGHT * scale)) * 0.5f
+    };
+
+    // 3. Draw the buffer to the actual screen
+    BeginDrawing();
+    ClearBackground(DARKGRAY); // This color becomes your letterbox bars
+
+    // NOTE: -targetRenderBuffer.texture.height is required because OpenGL textures are inverted on the Y axis
+    Rectangle sourceRec = { 0.0f, 0.0f, (float)targetRenderBuffer.texture.width, -(float)targetRenderBuffer.texture.height };
+    Rectangle destRec = { offset.x, offset.y, VIRTUAL_WIDTH * scale, VIRTUAL_HEIGHT * scale };
+    Vector2 origin = { 0.0f, 0.0f };
+
+    DrawTexturePro(targetRenderBuffer.texture, sourceRec, destRec, origin, 0.0f, WHITE);
+    
     EndDrawing();
 }

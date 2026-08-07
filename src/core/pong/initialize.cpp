@@ -34,7 +34,7 @@ void Pong::resetRound() {
     paddleLength = initPaddleLength;
     paddleHeight = initPaddleHeight;
     paddle = {
-        {(windowWidth - initPaddleLength) * 0.500f, windowHeight * 0.900f},
+        {(VIRTUAL_WIDTH - initPaddleLength) * 0.500f, VIRTUAL_HEIGHT * 0.900f},
         {initPaddleLength, initPaddleHeight}
     };
 
@@ -42,7 +42,7 @@ void Pong::resetRound() {
     constexpr float ballRadius = 16.0f;
     balls.push_back(
         {
-            {windowWidth * 0.500f, paddle.pos.y - ballRadius * 1.5f},
+            {VIRTUAL_WIDTH * 0.500f, paddle.pos.y - ballRadius * 1.5f},
             {ballSpeedMultiplier, -ballSpeedMultiplier},
             ballRadius
         }

@@ -5,8 +5,14 @@
 void Pong::movePaddle() {
     Vector2 mousePos = GetMousePosition();
 
-    float targetX = mousePos.x - (paddle.size.x * 0.5f);
-    paddle.pos.x = std::clamp(targetX, 0.0f, windowWidth - paddle.size.x);
+    float scale = std::min((float)windowWidth / VIRTUAL_WIDTH, (float)windowHeight / VIRTUAL_HEIGHT);
+
+    float offsetX = (windowWidth - (VIRTUAL_WIDTH * scale)) * 0.5f;
+    float virtualMouseX = (mousePos.x - offsetX) / scale;
+    
+    float targetX = virtualMouseX - (paddle.size.x * 0.5f);
+    
+    paddle.pos.x = std::clamp(targetX, 0.0f, VIRTUAL_WIDTH - paddle.size.x);
 
     if (!started) {
         float paddleCenterX = paddle.pos.x + (paddle.size.x * 0.5f);
@@ -28,16 +34,16 @@ void Pong::updateHp() {
 }
 
 void Pong::wallCollision(Ball& ball) {
-    if (ball.pos.x >= windowWidth - ball.radius) {
-        ball.pos.x = windowWidth - ball.radius;
+    if (ball.pos.x >= VIRTUAL_WIDTH - ball.radius) {
+        ball.pos.x = VIRTUAL_WIDTH - ball.radius;
         ball.vel.x = -ball.vel.x;
     } else if (ball.pos.x <= ball.radius) {
         ball.pos.x = ball.radius;
         ball.vel.x = -ball.vel.x;
     }
 
-    if (ball.pos.y >= windowHeight - ball.radius) {
-        ball.pos.y = windowHeight - ball.radius;
+    if (ball.pos.y >= VIRTUAL_HEIGHT - ball.radius) {
+        ball.pos.y = VIRTUAL_HEIGHT - ball.radius;
         ball.vel.y = -ball.vel.y;
 
         // Destroying the ball
