@@ -1,7 +1,7 @@
 {
   "name": "Level 1",
-  "initWidth": 0.250,
-  "initHeight": 0.100,
+  "initWidth": 400.0,
+  "initHeight": 90.0,
 
   "blockSep": 60.0,
   "blockWidthOffset": 240.0,

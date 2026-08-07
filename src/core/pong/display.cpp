@@ -10,7 +10,7 @@ void Pong::drawStatusBar() {
 
     std::string title = std::format("Pong | Level {}", currentLevel);
     if (isWinning) {
-        title.append(" | Win!");
+        title.append(std::format(" | Win! Level up in: {}", levelUpCountdownFrames / fps));
     } else if (isLosing) {
         title.append(" | Lose!");
     }
@@ -121,4 +121,11 @@ void Pong::display() {
     DrawTexturePro(targetRenderBuffer.texture, sourceRec, destRec, origin, 0.0f, WHITE);
     
     EndDrawing();
+}
+
+void Pong::resize(int newWidth, int newHeight) {
+    if (newWidth == 0 || newHeight == 0) return;
+    
+    windowWidth = newWidth;
+    windowHeight = newHeight;
 }

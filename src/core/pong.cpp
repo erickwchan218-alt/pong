@@ -17,6 +17,7 @@ Pong::Pong(int m_width, int m_height, int m_fps)
     paddleHeight = initPaddleHeight;
 
     ballSpeedMultiplier = 600.0f;
+    levelUpCountdownFrames = 0;
     currentLevel = 1;
 }
 

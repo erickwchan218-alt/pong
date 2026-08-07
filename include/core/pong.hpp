@@ -98,6 +98,7 @@ protected:
 
     int currentLevel;
     bool started = false;
+    int levelUpCountdownFrames;
     int hp;
 
     bool isWinning = false;
@@ -129,6 +130,7 @@ protected:
 
     void updateWinning();
     void updateHp();
+    void levelUp();
 
     void wallCollision(Ball& ball);
     void paddleCollision(Ball& ball);

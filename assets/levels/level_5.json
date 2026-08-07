@@ -1,7 +1,7 @@
 {
   "name": "Level 5",
-  "initWidth": 0.080,
-  "initHeight": 0.056,
+  "initWidth": 128.0,
+  "initHeight": 50.0,
 
   "blockSep": 10,
   "blockWidthOffset": 70,

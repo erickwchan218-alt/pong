@@ -23,7 +23,10 @@ void Pong::movePaddle() {
 }
 
 void Pong::updateWinning() {
-    if (activeBlocks <= 0) { isWinning = true; }
+    if (activeBlocks <= 0 && !isWinning) {
+        isWinning = true; 
+        levelUpCountdownFrames = 5 * fps;   // 5 seconds
+    }
 }
 
 void Pong::updateHp() {
@@ -136,6 +139,12 @@ void Pong::updateItems() {
     }
 }
 
+void Pong::levelUp() {
+    started = false;
+    ++currentLevel;
+    initialize();
+}
+
 void Pong::updateFrame() {
     if (IsMouseButtonPressed(0)) {
         started = true;
@@ -145,11 +154,14 @@ void Pong::updateFrame() {
     updateWinning();
     updateHp();
 
-    if ((isWinning && IsKeyPressed(KEY_ENTER)) ||
+    if (isWinning) { 
+        TraceLog(LOG_DEBUG, "Frame decremented: %d", levelUpCountdownFrames);
+        --levelUpCountdownFrames; 
+    }
+
+    if ((isWinning && levelUpCountdownFrames <= 0) ||
         (isDebugMode && IsKeyPressed(KEY_PAGE_DOWN))) {
-        started = false;
-        ++currentLevel;
-        initialize();
+        levelUp();
     }
 
     if (isDebugMode && IsKeyPressed(KEY_PAGE_UP)) {

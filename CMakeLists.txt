@@ -38,7 +38,6 @@ add_executable(pong
     src/items/shrink_paddle_item.cpp
     src/items/accel_ball_item.cpp
     src/items/decel_ball_item.cpp
-    src/core/pong/resize.cpp
 )
 
 # Tell CMake to search the src folder for header files (like logger.hpp)

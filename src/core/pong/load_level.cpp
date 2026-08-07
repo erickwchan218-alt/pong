@@ -18,8 +18,8 @@ void Pong::loadLevel(const std::string& filePath) {
     activeBlocks = 0;
 
     Vector2 blockInitVec = {
-        VIRTUAL_WIDTH * levelData["initWidth"].get<float>(),
-        VIRTUAL_HEIGHT * levelData["initHeight"].get<float>()
+        levelData["initWidth"].get<float>(),
+        levelData["initHeight"].get<float>()
     };
 
     float blockSep = levelData["blockSep"].get<float>();
