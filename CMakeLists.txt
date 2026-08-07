@@ -54,20 +54,37 @@ target_compile_options(pong PRIVATE
     -Wall
     -Wextra
     -Wshadow
-    
+
     # Modern C++ & OO Safety
     -Wnon-virtual-dtor
     -Wold-style-cast
     -Woverloaded-virtual
-    
+
     # Numeric Safety & Performance
     -Wconversion
     -Wsign-conversion
     -Wdouble-promotion
-    
-    # Static Analysis & Standards
+
+    # Code Hygiene & Logic
+    -Wcast-align
+    -Wunused
+    -Wformat=2
+    -Wimplicit-fallthrough
     -Wnull-dereference
     -Wpedantic
+
+    # GCC Specifics
+    -Wduplicated-cond
+    -Wduplicated-branches
+    -Wlogical-op
+    -Wuseless-cast
+
+    # Debug & Memory Sanitizers (Run-time checks)
+    -g
+    -fno-omit-frame-pointer
+    #-fsanitize=address
+    #-fsanitize=undefined
+
     #-Werror # Uncomment for strict CI builds
 )
 

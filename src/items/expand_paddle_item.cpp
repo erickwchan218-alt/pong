@@ -8,12 +8,18 @@ using epi = Pong::ExpandPaddleItem;
 template<>
 void epi::draw(const Texture2D& texture) const {
     DrawCircle( 
-        pos.x,
-        pos.y,
+        static_cast<int>(pos.x),
+        static_cast<int>(pos.y),
         radius,
         Color{ 204, 84, 255, 255 }
     );
-    Rectangle sourceRec = { 0.0f, 0.0f, (float)texture.width, (float)texture.height };
+    
+    Rectangle sourceRec = {
+        0.0f,
+        0.0f, 
+        static_cast<float>(texture.width), 
+        static_cast<float>(texture.height)
+    };
     Rectangle destRec   = { pos.x, pos.y, radius * 2.0f, radius * 2.0f };
     Vector2 origin      = { radius, radius };
     

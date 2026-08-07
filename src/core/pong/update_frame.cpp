@@ -5,9 +5,12 @@
 void Pong::movePaddle() {
     Vector2 mousePos = GetMousePosition();
 
-    float scale = std::min((float)windowWidth / VIRTUAL_WIDTH, (float)windowHeight / VIRTUAL_HEIGHT);
+    float scale = std::min(
+        static_cast<float>(windowWidth) / VIRTUAL_WIDTH, 
+        static_cast<float>(windowHeight) / VIRTUAL_HEIGHT
+    );
 
-    float offsetX = (windowWidth - (VIRTUAL_WIDTH * scale)) * 0.5f;
+    float offsetX = (static_cast<float>(windowWidth) - (VIRTUAL_WIDTH * scale)) * 0.5f;
     float virtualMouseX = (mousePos.x - offsetX) / scale;
     
     float targetX = virtualMouseX - (paddle.size.x * 0.5f);

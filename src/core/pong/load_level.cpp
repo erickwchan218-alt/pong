@@ -49,8 +49,8 @@ void Pong::loadLevel(const std::string& filePath) {
 
             blocks.push_back({
                 {
-                    blockInitVec.x + x * blockWidthOffset, 
-                    blockInitVec.y + y * blockHeightOffset
+                    blockInitVec.x + static_cast<float>(x) * blockWidthOffset, 
+                    blockInitVec.y + static_cast<float>(y) * blockHeightOffset
                 },
                 {blockWidth, blockHeight},
                 type,
