@@ -32,12 +32,13 @@ add_executable(pong
     src/core/pong/spawn_item.cpp
     src/core/pong/update_frame.cpp
 
-    src/items/item.cpp
-    src/items/multi_ball_item.cpp
-    src/items/expand_paddle_item.cpp
-    src/items/shrink_paddle_item.cpp
     src/items/accel_ball_item.cpp
     src/items/decel_ball_item.cpp
+    src/items/expand_paddle_item.cpp
+    src/items/item.cpp
+    src/items/multi_ball_item.cpp
+    src/items/shrink_paddle_item.cpp
+
 )
 
 # Tell CMake to search the src folder for header files (like logger.hpp)
@@ -48,7 +49,27 @@ target_link_libraries(pong PRIVATE
     nlohmann_json::nlohmann_json
 )
 
-target_compile_options(pong PRIVATE -Wall -Wextra -Wshadow)
+target_compile_options(pong PRIVATE 
+    # Base Warnings
+    -Wall
+    -Wextra
+    -Wshadow
+    
+    # Modern C++ & OO Safety
+    -Wnon-virtual-dtor
+    -Wold-style-cast
+    -Woverloaded-virtual
+    
+    # Numeric Safety & Performance
+    -Wconversion
+    -Wsign-conversion
+    -Wdouble-promotion
+    
+    # Static Analysis & Standards
+    -Wnull-dereference
+    -Wpedantic
+    #-Werror # Uncomment for strict CI builds
+)
 
 add_custom_command(
     TARGET pong POST_BUILD

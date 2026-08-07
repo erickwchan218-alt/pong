@@ -6,7 +6,7 @@
 
 Pong::Pong(int m_width, int m_height, int m_fps)
     : windowWidth(m_width), windowHeight(m_height), fps(m_fps) {
-    dt = 1.0f / fps;
+    dt = 1.0f / static_cast<float>(fps);
 
     targetRenderBuffer = LoadRenderTexture(static_cast<int>(VIRTUAL_WIDTH), static_cast<int>(VIRTUAL_HEIGHT));
     SetTextureFilter(targetRenderBuffer.texture, TEXTURE_FILTER_BILINEAR);
