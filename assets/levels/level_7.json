@@ -1,0 +1,13 @@
+{
+  "name": "Level 7",
+  "initWidth": 0.024,
+  "initHeight": 0.080,
+  "blockSep": 5,
+  "blockWidthOffset": 40,
+  "blockHeightOffset": 20,
+  "blockWidth": 35,
+  "blockHeight": 20,
+  "grid": [
+
+  ]
+}

@@ -9,6 +9,6 @@ backups/
 
 sandbox/
 archive/
-assets/
+
 logs/
 *.log

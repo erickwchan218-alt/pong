@@ -1,0 +1,21 @@
+{
+  "name": "Level 4",
+  "initWidth": 0.020,
+  "initHeight": 0.100,
+
+  "blockSep": 20.0,
+  "blockWidthOffset": 80.0,
+  "blockHeightOffset": 40.0,
+
+  "blockWidth": 80.0,
+  "blockHeight": 40.0,
+  
+  "grid": 
+    [
+        ["I", "N", "N", "N", "N", "I", "N", "N", "N", "N", "I", "N", "N", "N", "N"],
+        ["W", "N", "N", "N", "N", "W", "N", "N", "N", "N", "W", "N", "N", "N", "N"],
+        ["I", "N", "N", "N", "N", "I", "N", "N", "N", "N", "I", "N", "N", "N", "N"],
+        ["W", "N", "N", "N", "N", "W", "N", "N", "N", "N", "W", "N", "N", "N", "N"],
+        ["I", "N", "N", "N", "N", "I", "N", "N", "N", "N", "I", "N", "N", "N", "N"]
+    ]
+}

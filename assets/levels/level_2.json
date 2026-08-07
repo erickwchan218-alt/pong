@@ -1,0 +1,21 @@
+{
+  "name": "Level 2",
+  "initWidth": 0.250,
+  "initHeight": 0.100,
+
+  "blockSep": 20.0,
+  "blockWidthOffset": 160.0,
+  "blockHeightOffset": 80.0,
+
+  "blockWidth": 140.0,
+  "blockHeight": 70.0,
+  
+  "grid": 
+    [
+        ["I", "I", "I", "I", "I"],
+        ["W", "W", "W", "W", "W"],
+        ["N", "N", "N", "N", "N"],
+        ["N", "N", "N", "N", "N"],
+        ["N", "N", "N", "N", "N"]
+    ]
+}

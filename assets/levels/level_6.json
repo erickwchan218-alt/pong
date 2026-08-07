@@ -1,0 +1,19 @@
+{
+  "name": "Level 6",
+  "initWidth": 0.024,
+  "initHeight": 0.080,
+
+  "blockSep": 10,
+  "blockWidthOffset": 80,
+  "blockHeightOffset": 40,
+
+  "blockWidth": 70,
+  "blockHeight": 40,
+  "grid": [
+    ["W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"],
+    ["W", "I", "N", "N", "N", "N", "N", "I", "W", "I", "N", "N", "N", "N", "N", "I", "W"],
+    [".", "W", "I", "N", "N", "N", "I", "W", "N", "W", "I", "N", "N", "N", "I", "W", "."],
+    [".", ".", "W", "I", "N", "I", "W", "N", "N", "N", "W", "I", "N", "I", "W", ".", "."],
+    [".", ".", ".", "W", "I", "W", "N", "N", "N", "N", "N", "W", "I", "W", ".", ".", "."]
+  ]
+}
