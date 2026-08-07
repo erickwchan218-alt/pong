@@ -94,6 +94,14 @@ void Pong::display() {
     drawBlocks();
     drawItems();
     
+    DrawRectangle(
+        VIRTUAL_WIDTH / 2.0f,
+        0.0f, 
+        1.0f,
+        VIRTUAL_HEIGHT,
+        RED
+    );
+
     // paddle
     DrawRectangleV(
         paddle.pos,

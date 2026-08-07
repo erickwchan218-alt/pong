@@ -22,9 +22,9 @@ void Pong::loadLevel(const std::string& filePath) {
         levelData["initHeight"].get<float>()
     };
 
-    float blockSep = levelData["blockSep"].get<float>();
-    float blockWidthOffset = levelData["blockWidthOffset"].get<float>() + blockSep;
-    float blockHeightOffset = levelData["blockHeightOffset"].get<float>() + blockSep;
+    // float blockSep = levelData["blockSep"].get<float>();
+    float blockWidthOffset = levelData["blockWidthOffset"].get<float>(); // + blockSep;
+    float blockHeightOffset = levelData["blockHeightOffset"].get<float>(); // + blockSep;
 
     float blockWidth = levelData["blockWidth"].get<float>();
     float blockHeight = levelData["blockHeight"].get<float>();
@@ -48,7 +48,10 @@ void Pong::loadLevel(const std::string& filePath) {
             }
 
             blocks.push_back({
-                {blockInitVec.x + x * blockWidthOffset, blockInitVec.y + y * blockHeightOffset},
+                {
+                    blockInitVec.x + x * blockWidthOffset, 
+                    blockInitVec.y + y * blockHeightOffset
+                },
                 {blockWidth, blockHeight},
                 type,
                 true

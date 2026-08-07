@@ -45,6 +45,7 @@ void InitLogger(const char* logFilePath) {
 
     g_logFile = fopen(logFilePath, "w");
     if (g_logFile) {
+        SetTraceLogLevel(LOG_ALL);
         SetTraceLogCallback(CustomLogCallback);
     } else {
         perror("Failed to open log file");

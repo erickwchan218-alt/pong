@@ -1,14 +1,13 @@
 {
   "name": "Level 5",
-  "initWidth": 128.0,
+  "initWidth": 126.0,
   "initHeight": 50.0,
 
-  "blockSep": 10,
-  "blockWidthOffset": 70,
-  "blockHeightOffset": 40,
+  "blockWidthOffset": 80.0,
+  "blockHeightOffset": 50.0,
 
-  "blockWidth": 68,
-  "blockHeight": 40,
+  "blockWidth": 68.0,
+  "blockHeight": 40.0,
 
   "grid": [
     [".", ".", "N", ".", ".", "I", "I", ".", ".", ".", "I", "I", ".", ".", "N", ".", "."],

@@ -1,14 +1,13 @@
 {
   "name": "Level 6",
-  "initWidth": 38.4,
+  "initWidth": 45.0,
   "initHeight": 72.0,
 
-  "blockSep": 10,
-  "blockWidthOffset": 80,
-  "blockHeightOffset": 40,
+  "blockWidthOffset": 90.0,
+  "blockHeightOffset": 50.0,
 
-  "blockWidth": 70,
-  "blockHeight": 40,
+  "blockWidth": 70.0,
+  "blockHeight": 40.0,
   "grid": [
     ["W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"],
     ["W", "I", "N", "N", "N", "N", "N", "I", "W", "I", "N", "N", "N", "N", "N", "I", "W"],

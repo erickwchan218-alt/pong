@@ -1,11 +1,10 @@
 {
   "name": "Level 4",
-  "initWidth": 32.0,
+  "initWidth": 60.0,
   "initHeight": 90.0,
 
-  "blockSep": 20.0,
-  "blockWidthOffset": 80.0,
-  "blockHeightOffset": 40.0,
+  "blockWidthOffset": 100.0,
+  "blockHeightOffset": 60.0,
 
   "blockWidth": 80.0,
   "blockHeight": 40.0,

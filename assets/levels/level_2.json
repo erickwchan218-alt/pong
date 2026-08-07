@@ -1,11 +1,10 @@
 {
   "name": "Level 2",
-  "initWidth": 400.0,
+  "initWidth": 370.0,
   "initHeight": 90.0,
 
-  "blockSep": 20.0,
-  "blockWidthOffset": 160.0,
-  "blockHeightOffset": 80.0,
+  "blockWidthOffset": 180.0,
+  "blockHeightOffset": 100.0,
 
   "blockWidth": 140.0,
   "blockHeight": 70.0,

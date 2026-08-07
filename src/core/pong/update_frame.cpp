@@ -145,6 +145,21 @@ void Pong::levelUp() {
     initialize();
 }
 
+void Pong::levelDown() {
+    started = false;
+    if (currentLevel > 1) {
+        --currentLevel;
+    }
+    initialize();
+}
+
+void Pong::debugModeFunctions() {
+    if (IsKeyPressed(KEY_PAGE_DOWN)) { levelUp(); }
+    if (IsKeyPressed(KEY_PAGE_UP)) { levelDown(); }
+    if (IsKeyPressed(KEY_KP_ADD)) { ++hp; }
+    if (IsKeyPressed(KEY_KP_SUBTRACT)) { --hp; }
+}
+
 void Pong::updateFrame() {
     if (IsMouseButtonPressed(0)) {
         started = true;
@@ -154,25 +169,18 @@ void Pong::updateFrame() {
     updateWinning();
     updateHp();
 
+    if (isDebugMode) {
+        debugModeFunctions();
+    }
+
     if (isWinning) { 
-        TraceLog(LOG_DEBUG, "Frame decremented: %d", levelUpCountdownFrames);
-        --levelUpCountdownFrames; 
+        if (levelUpCountdownFrames <= 0) {
+            levelUp(); 
+        } else {
+            --levelUpCountdownFrames;
+        }
     }
 
-    if ((isWinning && levelUpCountdownFrames <= 0) ||
-        (isDebugMode && IsKeyPressed(KEY_PAGE_DOWN))) {
-        levelUp();
-    }
-
-    if (isDebugMode && IsKeyPressed(KEY_PAGE_UP)) {
-        started = false;
-        --currentLevel;
-        initialize();
-    }
-
-    if (IsKeyPressed(KEY_ENTER)) {
-        TraceLog(LOG_WARNING, "Hello!");
-    }
 
     if (isLosing && IsKeyPressed(KEY_ENTER)) {
         started = false;
@@ -180,6 +188,7 @@ void Pong::updateFrame() {
     }
 
     if (hp <= 0) {
+        hp = 0;
         isLosing = true;
         balls.clear();
         return;

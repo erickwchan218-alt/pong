@@ -131,6 +131,8 @@ protected:
     void updateWinning();
     void updateHp();
     void levelUp();
+    void levelDown();
+    void debugModeFunctions();
 
     void wallCollision(Ball& ball);
     void paddleCollision(Ball& ball);
