@@ -1,6 +1,7 @@
 #include "core/pong.hpp"
 #include "raylib.h"
 
+#include <cmath>
 #include <vector>
 
 using dbi = Pong::DecelerateBallItem;
@@ -30,7 +31,14 @@ template<>
 void dbi::applyEffect(Pong& game) {
     constexpr float multiplier = 1.0f / 1.5f;
     for (auto& ball : game.balls) {
-        ball.vel.x *= multiplier;
-        ball.vel.y *= multiplier;
+        float ballSpeed = std::hypot(ball.vel.x, ball.vel.y);
+        if (ballSpeed * multiplier <= game.ballMinSpeed) {
+            float factor = game.ballMinSpeed / ballSpeed;
+            ball.vel.x *= factor;
+            ball.vel.y *= factor;
+        } else {
+            ball.vel.x *= multiplier;
+            ball.vel.y *= multiplier;
+        }
     }
 }

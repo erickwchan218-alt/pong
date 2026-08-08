@@ -111,6 +111,8 @@ protected:
     float paddleHeight;
     
     float ballSpeedMultiplier = 500.0f;
+    float ballMinSpeed = 100.0f;
+    float ballMaxSpeed = 1500.0f;
 
     std::vector<Ball> balls;
     std::vector<Block> blocks;

@@ -1,4 +1,5 @@
 #include "core/pong.hpp"
+
 #include <cmath>
 #include <algorithm>
 
@@ -53,8 +54,7 @@ void Pong::wallCollision(Ball& ball) {
         ball.vel.y = -ball.vel.y;
 
         // Destroying the ball
-        size_t index = &ball - &balls[0];
-        std::swap(balls[index], balls[balls.size() - 1]);
+        std::swap(ball, balls.back());
         balls.pop_back();
     } else if (ball.pos.y <= ball.radius) {
         ball.pos.y = ball.radius;
@@ -70,7 +70,7 @@ void Pong::paddleCollision(Ball& ball) {
         float hitFactor = (ball.pos.x - paddleCenterX) / (paddle.size.x / 2.0f);
         hitFactor = std::clamp(hitFactor, -1.0f, 1.0f);
 
-        constexpr float maxAngle = 70.0f * (M_PI / 180.0f); 
+        constexpr float maxAngle = 70.0f * (static_cast<float>(M_PI) / 180.0f); 
         float angle = hitFactor * maxAngle;
 
         float speed = std::hypot(ball.vel.x, ball.vel.y);
@@ -104,8 +104,17 @@ void Pong::blockCollision(Ball& ball) {
                 block.active = false;
                 --activeBlocks;
             } else {
-                ball.vel.x *= 1.01;
-                ball.vel.y *= 1.01;
+                ball.vel.x *= 1.01f;
+                ball.vel.y *= 1.01f;
+
+                float currentSpeed = std::hypot(ball.vel.x, ball.vel.y);
+
+                if (currentSpeed > 0.0f) {
+                    float newSpeed = std::clamp(currentSpeed, ballMinSpeed, ballMaxSpeed);
+                    
+                    ball.vel.x = (ball.vel.x / currentSpeed) * newSpeed;
+                    ball.vel.y = (ball.vel.y / currentSpeed) * newSpeed;
+                }
             }
 
             if (block.type == BlockType::Item) {
@@ -200,7 +209,7 @@ void Pong::updateFrame() {
     if (!started) return;
 
     for (int i = static_cast<int>(balls.size()) - 1; i >= 0; --i) {
-        auto& ball = balls[i];
+        auto& ball = balls[static_cast<size_t>(i)];
         ball.pos.x += ball.vel.x * dt;
         ball.pos.y += ball.vel.y * dt;
 

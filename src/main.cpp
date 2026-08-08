@@ -30,6 +30,10 @@ int main() {
     game.initialize();
 
     while (!WindowShouldClose()) {
+        if (IsKeyPressed(KEY_F11)) {
+            ToggleBorderlessWindowed();
+        }
+
         if (IsWindowResized()) {
             int currentWidth = GetScreenWidth();
             int currentHeight = GetScreenHeight();
